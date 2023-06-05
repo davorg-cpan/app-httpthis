@@ -20,7 +20,7 @@ sub new {
   my $class = shift;
   my $self = bless {port => 7007, root => '.'}, $class;
 
-  GetOptions($self, "help", "man", "port=i", "name=s", "autoindex") || pod2usage(2);
+  GetOptions($self, "help", "man", "port=i", "name=s", "autoindex", "pretty") || pod2usage(2);
   pod2usage(1) if $self->{help};
   pod2usage(-verbose => 2) if $self->{man};
 
@@ -49,9 +49,13 @@ sub run {
     '--env'          => 'production',
     '--server_ready' => sub { $self->_server_ready(@_) },
     '--autoindex'    => 0,
+    '--pretty'       => 0,
   );
 
-  my $app_config = { root => $self->{root} };
+  my $app_config = {
+    root   => $self->{root},
+    pretty => $self->{pretty},
+  };
   $app_config->{dir_index} = 'index.html' if $self->{autoindex};
 
   eval {
