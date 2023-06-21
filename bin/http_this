@@ -106,6 +106,8 @@ Print information about the script usage and its options.
 
 Print the entire man page for the command.
 
+=back
+
 =head2 CONFIGURATION FILE
 
 The script can read configuration options from a file. By default, it
@@ -128,7 +130,5 @@ C<index.html> file from a directory when it gets a request that ends in
 
 =item B<pretty>: If set to a true value, the server will use a prettier
 cascading stylesheet for directory listings.
-
-=back
 
 =back
