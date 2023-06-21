@@ -8,6 +8,7 @@ use Plack::App::DirectoryIndex;
 use Plack::Runner;
 use Getopt::Long;
 use Pod::Usage;
+use Config::Tiny;
 
 =method new
 
@@ -20,9 +21,30 @@ sub new {
   my $class = shift;
   my $self = bless {port => 7007, root => '.'}, $class;
 
-  GetOptions($self, "help", "man", "port=i", "name=s", "autoindex", "pretty") || pod2usage(2);
+  my $default_config_file = '.http_thisrc';
+
+  GetOptions(
+    $self, "help", "man", "config=s", "port=i", "name=s", "autoindex", "pretty"
+  ) || pod2usage(2);
   pod2usage(1) if $self->{help};
   pod2usage(-verbose => 2) if $self->{man};
+
+  my $config_file = $self->{config} || $ENV{HTTP_THIS_CONFIG};
+  for my $dir ('.', $ENV{HOME}) {
+    if (!$config_file && -f "$dir/$default_config_file") {
+      $config_file = "$dir/$default_config_file";
+      last;
+    }
+  }
+
+  if ($config_file) {
+    my $config = Config::Tiny->read($config_file)
+      or die "FATAL: failed to read config file '$config_file'\n";
+    for my $key (qw(port name autoindex pretty)) {
+      $self->{$key} = $config->{_}->{$key} if $config->{_}->{$key};
+    }
+    delete $self->{config};
+  }
 
   if (@ARGV > 1) {
     pod2usage("$0: Too many roots, only single root supported");
