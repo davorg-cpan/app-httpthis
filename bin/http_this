@@ -120,15 +120,23 @@ keys are:
 
 =over 4
 
-=item B<port>: The port to use for the HTTP server.
+=item B<port>:
 
-=item B<name>: The name to use when announcing the server over Bonjour.
+The port to use for the HTTP server.
 
-=item B<autoindex>: If set to a true value, the server will serve the
-C<index.html> file from a directory when it gets a request that ends in
-/ (instead of displaying a listing of that directory).
+=item B<name>:
 
-=item B<pretty>: If set to a true value, the server will use a prettier
-cascading stylesheet for directory listings.
+The name to use when announcing the server over Bonjour.
+
+=item B<autoindex>:
+
+If set to a true value, the server will serve the C<index.html> file from
+a directory when it gets a request that ends in / (instead of displaying
+a listing of that directory).
+
+=item B<pretty>:
+
+If set to a true value, the server will use a prettier cascading stylesheet
+for directory listings.
 
 =back
