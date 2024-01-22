@@ -8,6 +8,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  test:
     uses: davorg/github_workflows/.github/workflows/cpan-dzil-test.yml@main
+
+  coverage:
+    uses: PerlToolsTeam/github_workflows/.github/workflows/cpan-coverage.yml@main
+
+  perlcritic:
+    uses: PerlToolsTeam/github_workflows/.github/workflows/cpan-perlcritic.yml@main
+
+  complexity:
+    uses: PerlToolsTeam/github_workflows/.github/workflows/cpan-complexity.yml@main
 
