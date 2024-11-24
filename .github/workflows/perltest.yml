@@ -9,7 +9,7 @@ on:
 
 jobs:
   test:
-    uses: davorg/github_workflows/.github/workflows/cpan-dzil-test.yml@main
+    uses: PerlToolsTeam/github_workflows/.github/workflows/cpan-dzil-test.yml@main
 
   coverage:
     uses: PerlToolsTeam/github_workflows/.github/workflows/cpan-coverage.yml@main
