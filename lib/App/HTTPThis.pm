@@ -24,7 +24,7 @@ sub new {
   my $default_config_file = '.http_thisrc';
 
   GetOptions(
-    $self, "help", "man", "config=s", "port=i", "name=s", "autoindex", "pretty"
+    $self, "help", "man", "config=s", "host=s", "port=i", "name=s", "autoindex", "pretty"
   ) || pod2usage(2);
   pod2usage(1) if $self->{help};
   pod2usage(-verbose => 2) if $self->{man};
@@ -67,6 +67,7 @@ sub run {
 
   my $runner = Plack::Runner->new;
   $runner->parse_options(
+    ($self->{host} ? ('--host' => $self->{host}) : ()),
     '--port'         => $self->{port},
     '--env'          => 'production',
     '--server_ready' => sub { $self->_server_ready(@_) },

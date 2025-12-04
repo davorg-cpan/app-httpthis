@@ -25,8 +25,11 @@ __END__
     ## Export the dir_name directory with HTTP
     $ http_this dir_name
 
-    ## Start the server on a specific port
+    ## Bind the server to a specific port
     $ http_this --port 9001
+
+    ## Bind the server to a specific host/IP address
+    $ http_this --host 0.0.0.0
 
     ## Announces the HTTP server via Bonjour with the specified name
     $ http_this --name "My cool webserver"
