@@ -23,12 +23,6 @@ sub new {
 
   my $default_config_file = '.http_thisrc';
 
-  GetOptions(
-    $self, "help", "man", "config=s", "host=s", "port=i", "name=s", "autoindex", "pretty"
-  ) || pod2usage(2);
-  pod2usage(1) if $self->{help};
-  pod2usage(-verbose => 2) if $self->{man};
-
   my $config_file = $self->{config} || $ENV{HTTP_THIS_CONFIG};
   for my $dir ('.', $ENV{HOME}) {
     if (!$config_file && -f "$dir/$default_config_file") {
@@ -45,6 +39,12 @@ sub new {
     }
     delete $self->{config};
   }
+
+  GetOptions(
+    $self, "help", "man", "config=s", "host=s", "port=i", "name=s", "autoindex!", "pretty!"
+  ) || pod2usage(2);
+  pod2usage(1) if $self->{help};
+  pod2usage(-verbose => 2) if $self->{man};
 
   if (@ARGV > 1) {
     pod2usage("$0: Too many roots, only single root supported");
@@ -82,7 +82,11 @@ sub run {
   $app_config->{dir_index} = 'index.html' if $self->{autoindex};
 
   eval {
-    $runner->run(Plack::App::DirectoryIndex->new( $app_config )->to_app);
+    if ($self->{autoindex}) {
+      $runner->run(Plack::App::DirectoryIndex->new( $app_config )->to_app);
+    } else {
+      $runner->run(Plack::App::Directory->new( $app_config )->to_app);
+    }
   };
   if (my $e = $@) {
     die "FATAL: port $self->{port} is already in use, try another one\n"
