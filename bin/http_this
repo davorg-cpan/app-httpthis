@@ -84,7 +84,7 @@ Announces the server over Bonjour.
 
 This feature requires the L<Net::Rendezvous::Publish> module and the
 appropriate backend for your operating system, both available from
-L<CPAN|http://search.cpan.org/>. If one of them cannot be found, a
+L<MetaCPAN|https://metacpan.org/>. If one of them cannot be found, a
 warning message will be displayed.
 
 =item --autoindex

@@ -10,7 +10,11 @@ use Getopt::Long;
 use Pod::Usage;
 use Config::Tiny;
 
-=method new
+our $VERSION = '0.11.0';
+
+=head1 METHODS
+
+=head2 new
 
 Creates a new App::HTTPThis object, parsing the command line arguments
 into object attribute values.
@@ -24,7 +28,10 @@ sub new {
   my $default_config_file = '.http_thisrc';
 
   my $config_file = $self->{config} || $ENV{HTTP_THIS_CONFIG};
+
+  # There are apparently OSes where $ENV{HOME} is undefined
   for my $dir ('.', $ENV{HOME}) {
+    next unless defined $dir;
     if (!$config_file && -f "$dir/$default_config_file") {
       $config_file = "$dir/$default_config_file";
       last;
@@ -56,7 +63,7 @@ sub new {
   return $self;
 }
 
-=method run
+=head2 run
 
 Start the HTTP server.
 
@@ -76,17 +83,14 @@ sub run {
   );
 
   my $app_config = {
-    root   => $self->{root},
-    pretty => $self->{pretty},
+    root      => $self->{root},
+    pretty    => $self->{pretty},
+    dir_index => '',
   };
   $app_config->{dir_index} = 'index.html' if $self->{autoindex};
 
   eval {
-    if ($self->{autoindex}) {
-      $runner->run(Plack::App::DirectoryIndex->new( $app_config )->to_app);
-    } else {
-      $runner->run(Plack::App::Directory->new( $app_config )->to_app);
-    }
+    $runner->run(Plack::App::DirectoryIndex->new( $app_config )->to_app);
   };
   if (my $e = $@) {
     die "FATAL: port $self->{port} is already in use, try another one\n"

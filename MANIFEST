@@ -1,0 +1,16 @@
+Changes
+INSTALL
+LICENSE
+MANIFEST
+META.json
+META.yml
+Makefile.PL
+README
+bin/http_this
+lib/App/HTTPThis.pm
+t/00-compile.t
+xt/author-distmeta.t
+xt/author-eol.t
+xt/author-no-tabs.t
+xt/author-pod-coverage.t
+xt/author-pod-syntax.t
