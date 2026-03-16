@@ -23,11 +23,5 @@ jobs:
         with:
           perl-version: '5.40'
 
-      - name: Install Dist::Zilla
-        run: cpanm --notest Dist::Zilla
-
-      - name: Install Dist::Zilla author dependencies
-        run: dzil authordeps --missing | cpanm --notest
-
-      - name: Install application dependencies
-        run: dzil listdeps --missing | cpanm --notest
+      - name: Install dependencies
+        run: cpanm --installdeps --with-develop --notest .
