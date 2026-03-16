@@ -1,0 +1,108 @@
+name: Debug CPAN install
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug-install:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Perl 5.40
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: '5.40'
+
+      - name: Install cpanminus
+        run: |
+          curl -L https://cpanmin.us | perl - App::cpanminus
+
+      - name: Show environment
+        run: |
+          echo "PWD: $PWD"
+          echo "PATH: $PATH"
+          echo "PERL5LIB: ${PERL5LIB:-<unset>}"
+          perl -v
+          perl -MConfig -e 'print "archname=$Config{archname}\n"; print "osname=$Config{osname}\n"; print "version=$Config{version}\n";'
+          perl -MExtUtils::MakeMaker -e 'print "ExtUtils::MakeMaker $ExtUtils::MakeMaker::VERSION\n"'
+          cpanm --version
+
+      - name: Show repo files
+        run: |
+          echo "Top level:"
+          ls -la
+          echo
+          echo "lib/App:"
+          ls -la lib/App || true
+          echo
+          echo "bin:"
+          ls -la bin || true
+          echo
+          echo ".gitignore:"
+          test -f .gitignore && cat .gitignore || echo "<missing>"
+          echo
+          echo "MANIFEST:"
+          test -f MANIFEST && cat MANIFEST || echo "<missing>"
+          echo
+          echo "MANIFEST.SKIP:"
+          test -f MANIFEST.SKIP && cat MANIFEST.SKIP || echo "<missing>"
+
+      - name: Show Makefile.PL
+        run: |
+          echo "===== Makefile.PL ====="
+          cat Makefile.PL
+
+      - name: Show module header
+        run: |
+          echo "===== lib/App/HTTPThis.pm ====="
+          sed -n '1,80p' lib/App/HTTPThis.pm
+
+      - name: Test VERSION_FROM parsing
+        run: |
+          perl -MExtUtils::MakeMaker -e 'print "parse_version=", (MM->parse_version("lib/App/HTTPThis.pm") // "<undef>"), "\n"'
+
+      - name: Run Makefile.PL directly
+        run: |
+          perl Makefile.PL
+          echo
+          echo "After Makefile.PL:"
+          ls -la Makefile MYMETA.json MYMETA.yml 2>/dev/null || true
+
+      - name: Show generated MYMETA files
+        run: |
+          echo "===== MYMETA.json ====="
+          test -f MYMETA.json && cat MYMETA.json || echo "<missing>"
+          echo
+          echo "===== MYMETA.yml ====="
+          test -f MYMETA.yml && cat MYMETA.yml || echo "<missing>"
+
+      - name: Install dependencies with cpanm (verbose)
+        run: |
+          cpanm -v --installdeps --with-develop --notest .
+
+      - name: Dump cpanm work logs on failure
+        if: failure()
+        run: |
+          echo "===== ~/.cpanm ====="
+          find /home/runner/.cpanm -maxdepth 3 -type f | sort || true
+          echo
+          echo "===== build.log files ====="
+          find /home/runner/.cpanm -name build.log -print | while read f; do
+            echo
+            echo "----- $f -----"
+            cat "$f"
+          done
+
+      - name: Upload cpanm logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cpanm-debug-logs
+          path: /home/runner/.cpanm
+          if-no-files-found: ignore
