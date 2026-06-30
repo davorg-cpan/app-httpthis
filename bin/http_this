@@ -78,6 +78,13 @@ The following options are available:
 
 Start the HTTP server on a specific C<PORT>.
 
+=item --host HOST
+
+Bind the server to a specific C<HOST> or IP address. By default the server
+binds to all network interfaces, which means other machines on your network
+can reach it. To make the server available only on this computer, use
+C<--host 127.0.0.1> (or C<--host ::1> for IPv6).
+
 =item --name NAME
 
 Announces the server over Bonjour.

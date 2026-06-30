@@ -117,12 +117,33 @@ sub run {
 sub _server_ready {
   my ($self, $args) = @_;
 
-  my $host  = $args->{host}  || '127.0.0.1';
+  my $host  = $args->{host};
   my $proto = $args->{proto} || 'http';
   my $port  = $args->{port};
 
+  # An unspecified, zero, or wildcard host means the server is listening on
+  # every network interface, not just this machine.
+  my $all_interfaces =
+       !defined $host
+    || $host eq ''
+    || $host eq '0'
+    || $host eq '0.0.0.0'
+    || $host eq '::';
+
+  my $ipv6     = defined $host && $host eq '::';
+  my $loopback = $ipv6 ? '::1' : '127.0.0.1';
+  my $display  = $all_interfaces ? $loopback : $host;
+  my $url_host = $display =~ /:/ ? "[$display]" : $display;
+
   print "Exporting '$self->{root}', available at:\n";
-  print "   $proto://$host:$port/\n";
+  print "   $proto://$url_host:$port/\n";
+
+  if ($all_interfaces) {
+    print "\n";
+    print "WARNING: this server is reachable on all network interfaces, so\n";
+    print "other machines on your network can access it. To limit access to\n";
+    print "this computer only, restart with: --host $loopback\n";
+  }
 
   return unless my $name = $self->{name};
 
