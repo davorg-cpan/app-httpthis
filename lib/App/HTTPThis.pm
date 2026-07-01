@@ -61,14 +61,20 @@ sub new {
         $self->{$key} = $config->{_}->{$key};
       }
     }
+    if ($config->{_}->{all}) {
+      $self->{host} = '0.0.0.0';
+    }
     delete $self->{config};
   }
 
   GetOptions(
-    $self, "help", "man", "config=s", "host=s", "port=i", "name=s", "autoindex!", "pretty!"
+    $self, "help", "man", "config=s", "host=s", "port=i", "name=s", "autoindex!", "pretty!",
+    "all|promiscuous"
   ) || pod2usage(2);
   pod2usage(1) if $self->{help};
   pod2usage(-verbose => 2) if $self->{man};
+
+  $self->{host} = '0.0.0.0' if $self->{all};
 
   if (@ARGV > 1) {
     pod2usage("$0: Too many roots, only single root supported");

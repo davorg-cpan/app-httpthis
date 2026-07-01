@@ -35,6 +35,9 @@ http_this - export the current directory over HTTP
     ## Bind the server to a specific host/IP address
     $ http_this --host 0.0.0.0
 
+    ## Make the server reachable on all network interfaces
+    $ http_this --all
+
     ## Announces the HTTP server via Bonjour with the specified name
     $ http_this --name "My cool webserver"
 
@@ -88,6 +91,13 @@ Bind the server to a specific C<HOST> or IP address. By default the server
 binds to C<127.0.0.1> (localhost), so it is only reachable from this computer.
 Use C<--host 0.0.0.0> (or C<--host ::>) to make it reachable on all network
 interfaces.
+
+=item --all / --promiscuous
+
+Make the server reachable on all network interfaces (equivalent to
+C<--host 0.0.0.0>). This is useful when you want other machines on your
+network to be able to access the server. When this option is active, a warning
+is printed reminding you that the server is publicly reachable.
 
 =item --name NAME
 
@@ -145,6 +155,11 @@ The name to use when announcing the server over Bonjour.
 =item B<host>:
 
 The host or IP address to bind to. If omitted, C<127.0.0.1> is used.
+
+=item B<all>:
+
+If set to a true value, the server will bind to all network interfaces
+(equivalent to C<host=0.0.0.0>).
 
 =item B<autoindex>:
 
