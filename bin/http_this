@@ -17,6 +17,10 @@ __END__
 
 =encoding utf8
 
+=head1 NAME
+
+http_this - export the current directory over HTTP
+
 =head1 SYNOPSIS
 
     ## Export the current directory with HTTP
