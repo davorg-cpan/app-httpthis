@@ -10,7 +10,7 @@ use Getopt::Long;
 use Pod::Usage;
 use Config::Tiny;
 
-our $VERSION = '0.11.2';
+our $VERSION = '1.0.0';
 
 =head1 NAME
 

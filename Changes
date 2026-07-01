@@ -1,10 +1,8 @@
 # Changes for App-HTTPThis
 
-0.11.4
-     * Add --all (alias --promiscuous) flag to bind to all network interfaces
-
-0.11.3
-     * If no host is set in either CLI options or config, default to 127.0.0.1
+1.0.0
+     * Default to binding to 127.0.0.1 when no host is set in the CLI or config
+     * Add --all (alias --promiscuous) and config all=1 to restore the previous all-interfaces behaviour
 
 0.11.2
      * Be honest about the default being to bind to all network interfaces
