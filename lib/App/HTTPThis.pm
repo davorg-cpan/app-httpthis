@@ -56,7 +56,7 @@ sub new {
   if ($config_file) {
     my $config = Config::Tiny->read($config_file)
       or die "FATAL: failed to read config file '$config_file'\n";
-    for my $key (qw(port name autoindex pretty)) {
+    for my $key (qw(port host name autoindex pretty)) {
       $self->{$key} = $config->{_}->{$key} if $config->{_}->{$key};
     }
     delete $self->{config};
