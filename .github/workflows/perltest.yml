@@ -11,9 +11,7 @@ jobs:
   test:
     uses: PerlToolsTeam/github_workflows/.github/workflows/cpan-test.yml@main
     with:
-      # Perl 5.24 is dropped: the Plack::App::DirectoryIndex dependency chain
-      # bottoms out at Perl 5.26 (WebServer::DirIndex needs Feature::Compat::Class).
-      perl_version: "[ '5.26', '5.28', '5.30', '5.32', '5.34', '5.36', '5.38', '5.40', '5.42' ]"
+      perl_version: "['5.26', '5.28', '5.30', '5.32', '5.34', '5.36', '5.38', '5.40', '5.42']"
 
   coverage:
     uses: PerlToolsTeam/github_workflows/.github/workflows/cpan-coverage.yml@main
