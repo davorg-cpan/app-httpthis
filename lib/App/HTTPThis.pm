@@ -97,7 +97,7 @@ sub run {
 
   my $runner = Plack::Runner->new;
   $runner->parse_options(
-    ((defined $self->{host} && $self->{host} ne '') ? ('--host' => $self->{host}) : ()),
+    '--host'         => $self->{host},
     '--port'         => $self->{port},
     '--env'          => 'production',
     '--server_ready' => sub { $self->_server_ready(@_) },
