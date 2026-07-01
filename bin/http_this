@@ -85,9 +85,9 @@ Start the HTTP server on a specific C<PORT>.
 =item --host HOST
 
 Bind the server to a specific C<HOST> or IP address. By default the server
-binds to all network interfaces, which means other machines on your network
-can reach it. To make the server available only on this computer, use
-C<--host 127.0.0.1> (or C<--host ::1> for IPv6).
+binds to C<127.0.0.1> (localhost), so it is only reachable from this computer.
+Use C<--host 0.0.0.0> (or C<--host ::>) to make it reachable on all network
+interfaces.
 
 =item --name NAME
 
@@ -141,6 +141,10 @@ The port to use for the HTTP server.
 =item B<name>:
 
 The name to use when announcing the server over Bonjour.
+
+=item B<host>:
+
+The host or IP address to bind to. If omitted, C<127.0.0.1> is used.
 
 =item B<autoindex>:
 

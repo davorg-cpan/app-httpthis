@@ -38,7 +38,7 @@ into object attribute values.
 
 sub new {
   my $class = shift;
-  my $self = bless {port => 7007, root => '.'}, $class;
+  my $self = bless {host => '127.0.0.1', port => 7007, root => '.'}, $class;
 
   my $default_config_file = '.http_thisrc';
 
@@ -57,7 +57,9 @@ sub new {
     my $config = Config::Tiny->read($config_file)
       or die "FATAL: failed to read config file '$config_file'\n";
     for my $key (qw(port host name autoindex pretty)) {
-      $self->{$key} = $config->{_}->{$key} if $config->{_}->{$key};
+      if (defined $config->{_}->{$key} && $config->{_}->{$key} ne '') {
+        $self->{$key} = $config->{_}->{$key};
+      }
     }
     delete $self->{config};
   }
@@ -89,7 +91,7 @@ sub run {
 
   my $runner = Plack::Runner->new;
   $runner->parse_options(
-    ($self->{host} ? ('--host' => $self->{host}) : ()),
+    ((defined $self->{host} && $self->{host} ne '') ? ('--host' => $self->{host}) : ()),
     '--port'         => $self->{port},
     '--env'          => 'production',
     '--server_ready' => sub { $self->_server_ready(@_) },
@@ -177,4 +179,3 @@ L<http_this>, L<Plack>, L<Plack::App::DirectoryIndex>, and L<Net::Rendezvous::Pu
 And the Oscar goes to: Tatsuhiko Miyagawa.
 
 For L<Plack>, L<Plack::App::Directory> and many many others.
-
