@@ -46,7 +46,7 @@ jobs:
           output: _site/bonjour/index.html
       - name: Fix link
         run: |
-          perl -pie 's|\(BONJOUR.md\)|/bonjour/' _site/index.html
+          perl -pie 's|"BONJOUR.md"|"/bonjour/"|' _site/index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
