@@ -11,7 +11,7 @@ use Pod::Usage;
 use Config::Tiny;
 use IO::Socket::INET;
 
-our $VERSION = '1.0.0';
+our $VERSION = '1.0.1';
 
 =head1 NAME
 
