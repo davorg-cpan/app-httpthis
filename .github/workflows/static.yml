@@ -28,7 +28,7 @@ concurrency:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
-    if: github.repository == 'davorg/amazon-store'
+    if: github.repository == 'davorg-cpan/app-httpthis'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
