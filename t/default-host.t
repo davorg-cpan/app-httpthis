@@ -28,6 +28,18 @@ sub new_app {
   return $app;
 }
 
+subtest q{prints version} => sub {
+  my $app = bless {}, q{App::HTTPThis};
+  my $out = q{};
+  open my $fh, q{>}, \$out or die "cannot open in-memory handle: $!";
+  my $old = select $fh;
+  $app->_print_version;
+  select $old;
+  close $fh;
+
+  is $out, "http_this $App::HTTPThis::VERSION\n", q{prints module version};
+};
+
 subtest 'defaults host to localhost when unset' => sub {
   local $ENV{HTTP_THIS_CONFIG};
   my $app = new_app();

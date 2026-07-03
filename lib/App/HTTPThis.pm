@@ -79,10 +79,14 @@ sub new {
   my %cli;
   GetOptions(
     \%cli, "help", "man", "config=s", "host=s", "port=i", "name=s", "autoindex!", "pretty!",
-    "all|promiscuous", "wsl"
+    "all|promiscuous", "wsl", "version"
   ) || pod2usage(2);
   pod2usage(1) if $cli{help};
   pod2usage(-verbose => 2) if $cli{man};
+  if ($cli{version}) {
+    $self->_print_version;
+    exit 0;
+  }
 
   for my $key (keys %cli) {
     $self->{$key} = $cli{$key};
@@ -136,6 +140,12 @@ sub run {
       if $e =~ /failed to listen to port/;
     die "FATAL: internal error - $e\n";
   }
+}
+
+sub _print_version {
+  my ($self) = @_;
+
+  print "http_this $VERSION\n";
 }
 
 sub _wsl_host {

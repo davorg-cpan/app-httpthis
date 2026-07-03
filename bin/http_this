@@ -53,6 +53,9 @@ http_this - export the current directory over HTTP
     ## Load config from a file
     $ http_this --config /path/to/configrc
 
+    ## Show the installed App::HTTPThis version
+    $ http_this --version
+
     ## Show documentation about our options
     $ http_this --help
 
@@ -145,6 +148,10 @@ Creates default index listings using a prettier cascading stylesheet.
 =item --config FILE
 
 Read configuration options from C<FILE>. See L<CONFIGURATION FILE> below.
+
+=item --version
+
+Print the installed C<App::HTTPThis> version and exit.
 
 =item --help
 
