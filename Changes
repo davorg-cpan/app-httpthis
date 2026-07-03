@@ -1,6 +1,7 @@
 # Changes for App-HTTPThis
 
 Unreleased
+     * Replace generated README with a useful README.md
      * Add --version to print the installed App::HTTPThis version
      * Add Bonjour.md to the distribution
 
