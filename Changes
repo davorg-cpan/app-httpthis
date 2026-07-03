@@ -2,6 +2,7 @@
 
 Unreleased
      * Add --version to print the installed App::HTTPThis version
+     * Add Bonjour.md to the distribution
 
 1.0.1
      * Add --wsl and config wsl=1 to bind to the WSL IP address for access from Windows browsers

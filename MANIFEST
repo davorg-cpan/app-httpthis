@@ -6,6 +6,7 @@ META.json
 META.yml
 Makefile.PL
 README
+BONJOUR.md
 bin/http_this
 lib/App/HTTPThis.pm
 t/00-compile.t
