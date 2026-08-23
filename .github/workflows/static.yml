@@ -48,6 +48,7 @@ jobs:
         with:
           readme: BONJOUR.md
           output: _site/bonjour/index.html
+          google_analytics: G-CYRT27R5EF
       - name: Fix link
         run: |
           perl -pi -e 's|"BONJOUR.md"|"bonjour/"|' _site/index.html
