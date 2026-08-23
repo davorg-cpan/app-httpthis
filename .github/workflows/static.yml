@@ -42,6 +42,7 @@ jobs:
         uses: davorg/readme-to-index@v1
         with:
           output: _site/index.html
+          google_analytics: G-CYRT27R5EF
       - name: Generate bonjour/index.html
         uses: davorg/readme-to-index@v1
         with:
